@@ -6,7 +6,7 @@ import Server from "./classes/server";
 import { SERVER_PORT } from "./global/environments";
 import { router } from "./routes/routes";
 
-const server = new Server();
+const server = Server.instance;
 
 
 //Para poder leer los datos que vienen del endpoint

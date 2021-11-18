@@ -21,7 +21,6 @@ export default class Server{
         this.httpServer=new http.Server(this.app);
         this.io = new socketIO.Server( this.httpServer, { cors: { origin: true, credentials: true } } );
         this.escucharSockets();
-
     }
 
     public static get instance(){
@@ -35,13 +34,20 @@ export default class Server{
     private escucharSockets(){
         console.log('Escuchando conexiones');
         this.io.on('connection',cliente=>{
-            console.log('Nuevo cliente conectado'); 
+
+        //Conectar cliente
+        socket.conectarCliente(cliente);
+
+        //Leer loginWS
+        socket.configurarUsuario(cliente, this.io);
 
         //Desconectar
         socket.desconectar(cliente);
 
         //Leer mensaje
         socket.escucharMensaje(cliente, this.io);
+
+       
           
         })
         

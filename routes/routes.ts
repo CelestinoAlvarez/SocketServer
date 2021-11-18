@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import bodyParser from "body-parser";
+import Server from "../classes/server";
 
 export const router = Router();
 
@@ -14,6 +15,10 @@ router.get('/mensajes',(req:Request,res:Response)=>{
 router.post('/mensajes',(req:Request,res:Response)=>{
     const {cuerpo,de}=req.body;
     console.log(cuerpo,de);
+
+    const server=Server.instance;
+
+    server.io.emit('mensaje-nuevo',{de,cuerpo});
     
     res.json({
         ok:true,
@@ -25,7 +30,14 @@ router.post('/mensajes/:id',(req:Request,res:Response)=>{
     const {cuerpo}=req.body;
     const {id}=req.params;
 
-    console.log(cuerpo, id);
+    const payload = {
+        de:id,
+        cuerpo
+    }
+
+    const server=Server.instance;
+
+    server.io.in(id).emit('mensaje-privado',payload)
     
     
     res.json({

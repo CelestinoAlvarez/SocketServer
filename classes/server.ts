@@ -36,18 +36,25 @@ export default class Server{
         this.io.on('connection',cliente=>{
 
         //Conectar cliente
-        socket.conectarCliente(cliente);
+        socket.conectarCliente(cliente,this.io);
 
         //Leer loginWS
         socket.configurarUsuario(cliente, this.io);
 
         //Desconectar
-        socket.desconectar(cliente);
+        socket.desconectar(cliente, this.io);
 
         //Leer mensaje
         socket.escucharMensaje(cliente, this.io);
 
-       
+       //Obtener usuarios
+       socket.obtenerUsuarios(cliente,this.io);
+
+       //Obtener nuevo marcador
+       socket.mapaSockets(cliente,this.io);
+
+       //Mover marcador
+       socket.moverMarcador(cliente,this.io);
           
         })
         
